@@ -49,12 +49,18 @@ def start():
         else:
             print("Directory does not exist: " + str(year))
 
+    # remove_others(start_year, end_year, consultations_list)  # TODO: Test this
     # print(consultations_list)  # entire list for debug
     run_df_population(consultations_list)
     create_contact_csv()
 
     print('CSV generated successfully - exiting...')
     time.sleep(2)
+    
+    
+def remove_others(start, end, consultation_list):
+    consultation_list = [filename for filename in consultation_list if filename[:4].isnumeric() and int(filename[:4]) >= start and int(filename[:4]) <= end]
+    return consultation_list
 
 
 def get_filename_data(pdf_name):
