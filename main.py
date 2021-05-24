@@ -1,4 +1,5 @@
 import os.path
+import time
 from os import walk
 
 import pandas as pd
@@ -29,6 +30,11 @@ df = pd.DataFrame(columns=['Title', 'First Name', 'Middle Name', 'Last Name', 'S
 
 
 def start():
+    """
+    Runs the script by asking for a start and end year, populates the DataFrame, and saves to csv.
+
+    :return:
+    """
     print("Input start year (ex. 2015): ")
     start_year = int(input())
     print("Input end year (ex. 2018): ")
@@ -47,13 +53,18 @@ def start():
     run_df_population(consultations_list)
     create_contact_csv()
 
+    print('CSV generated successfully - exiting...')
+    time.sleep(2)
+
 
 def get_filename_data(pdf_name):
     """
-    Called like 'get_filename_data(filenames[1])'
+    Takes a pdf_name and extracts the date and names
+
+    Called like 'get_filename_data(filename)'
 
     :param pdf_name:
-    :return:
+    :return: A list of dicts representing contacts
     """
     consult_date = pdf_name[:11]
 
@@ -79,6 +90,11 @@ def get_filename_data(pdf_name):
 
 
 def add_contact(pdf_name):
+    """
+    Takes pdf_name and creates a list of dicts with get_filename_data() to add to the DataFrame
+
+    :param pdf_name: A string of format "YYYY-MM-DD - Last Name, First Name"
+    """
     person_dict = get_filename_data(pdf_name)
 
     for person in person_dict:
@@ -94,6 +110,11 @@ def add_contact(pdf_name):
 
 
 def run_df_population(filenames):
+    """
+    Iterates through every filename and passes to add_contact() for appending the filename as a contact to the DataFrame
+
+    :param filenames: The passed consultations_list from start() containing strings of filenames
+    """
     for consultation_filename in filenames:
         # print(consultation_filename)
         add_contact(consultation_filename)
@@ -102,6 +123,10 @@ def run_df_population(filenames):
 
 
 def create_contact_csv():
+    """
+    Saves the DataFrame to csv format for importing into Microsoft Outlook Contacts
+
+    """
     df.to_csv('generated_contacts.csv', index=False)
 
 
