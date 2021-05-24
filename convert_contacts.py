@@ -49,7 +49,7 @@ def start():
         else:
             print("Directory does not exist: " + str(year))
 
-    # remove_others(start_year, end_year, consultations_list)  # TODO: Test this
+    consultations_list = remove_others(start_year, end_year, consultations_list)  # TODO: Test this
     # print(consultations_list)  # entire list for debug
     run_df_population(consultations_list)
     create_contact_csv()
@@ -59,7 +59,7 @@ def start():
     
     
 def remove_others(start, end, consultation_list):
-    consultation_list = [filename for filename in consultation_list if filename[:4].isnumeric() and int(filename[:4]) >= start and int(filename[:4]) <= end]
+    consultation_list = [filename[:-4] for filename in consultation_list if filename[:4].isnumeric() and int(filename[:4]) >= start and int(filename[:4]) <= end]
     return consultation_list
 
 
@@ -81,12 +81,16 @@ def get_filename_data(pdf_name):
         names = person.split(',')
         # print(consult_date, people)
         last_name = names[0]
-        first_middle = names[1].split()
-        first_name = first_middle[0]
-        middle_name = first_middle[1:]
-
-        middle_names = " "
-        middle_names = middle_names.join(middle_name)
+        if len(names) > 1:
+            first_middle = names[1].split()
+            first_name = first_middle[0]
+            middle_name = first_middle[1:]
+    
+            middle_names = " "
+            middle_names = middle_names.join(middle_name)
+        else:
+            first_name = None
+            middle_names = None
 
         # print(last_name, first_name, middle_names)
         contacts_list.append({'First Name': first_name, 'Middle Name': middle_names, 'Last Name': last_name,
