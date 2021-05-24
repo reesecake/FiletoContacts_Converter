@@ -91,6 +91,9 @@ def get_filename_data(pdf_name):
         else:
             first_name = None
             middle_names = None
+        
+        if last_name[0] == ' ':
+            last_name = last_name[1:]  # remove leading whitespace
 
         # print(last_name, first_name, middle_names)
         contacts_list.append({'First Name': first_name, 'Middle Name': middle_names, 'Last Name': last_name,
