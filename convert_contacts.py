@@ -49,7 +49,7 @@ def start():
         else:
             print("Directory does not exist: " + str(year))
 
-    consultations_list = remove_others(start_year, end_year, consultations_list)  # TODO: Test this
+    consultations_list = remove_others(start_year, end_year, consultations_list)
     # print(consultations_list)  # entire list for debug
     run_df_population(consultations_list)
     create_contact_csv()
