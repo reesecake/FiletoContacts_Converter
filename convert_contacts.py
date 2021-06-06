@@ -43,8 +43,8 @@ def start():
     consultations_list = []
     for year in range(start_year, end_year + 1):
 
-        if os.path.isdir("./" + str(year)):
-            _, _, filenames = next(walk("./" + str(year)))
+        if os.path.isdir("./Test Files/" + str(year)):
+            _, _, filenames = next(walk("./Test Files/" + str(year)))
             consultations_list.extend(filenames)
         else:
             print("Directory does not exist: " + str(year))
@@ -59,7 +59,8 @@ def start():
     
     
 def remove_others(start, end, consultation_list):
-    consultation_list = [filename[:-4] for filename in consultation_list if filename[:4].isnumeric() and int(filename[:4]) >= start and int(filename[:4]) <= end]
+    consultation_list = [filename[:-4] for filename in consultation_list if
+                         filename[:4].isnumeric() and start <= int(filename[:4]) <= end]
     return consultation_list
 
 
